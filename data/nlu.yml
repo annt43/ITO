@@ -1,0 +1,13 @@
+nlu:
+- intent: turn_on_device
+  examples: |
+    - Bật đèn phòng khách
+    - Mở quạt trong phòng ngủ
+- intent: turn_off_device
+  examples: |
+    - Tắt đèn phòng bếp
+    - Tắt quạt
+- intent: set_device_value
+  examples: |
+    - Đặt nhiệt độ máy lạnh 25
+    - Chỉnh ánh sáng xuống 50%
