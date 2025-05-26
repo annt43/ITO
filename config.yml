@@ -1,0 +1,10 @@
+language: vi
+pipeline:
+- name: WhitespaceTokenizer
+- name: RegexFeaturizer
+- name: CountVectorsFeaturizer
+- name: DIETClassifier
+  epochs: 100
+policies:
+- name: RulePolicy
+assistant_id: 20250526-195235-atomic-valid

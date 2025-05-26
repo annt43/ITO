@@ -1,0 +1,13 @@
+rules:
+- rule: Bật thiết bị
+  steps:
+  - intent: turn_on_device
+  - action: action_control_device
+- rule: Tắt thiết bị
+  steps:
+  - intent: turn_off_device
+  - action: action_control_device
+- rule: Cài đặt thiết bị
+  steps:
+  - intent: set_device_value
+  - action: action_control_device
