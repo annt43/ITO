@@ -1,38 +1,64 @@
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 import requests
+import webbrowser
 
 class ActionControlDevice(Action):
     def name(self): return "action_control_device"
+
     def run(self, dispatcher, tracker, domain):
         intent = tracker.latest_message['intent']['name']
         dev = tracker.get_slot('device') or 'thiết bị'
-        room = tracker.get_slot('room') or 'nơi nào đó'
+        room = tracker.get_slot('room') or 'phòng nào đó'
         val = tracker.get_slot('value')
         url = 'http://localhost:5000/control'
-        if intent=='turn_on_device':
-            payload={'device':dev,'room':room,'action':'on'}
+        
+        if intent == 'turn_on_device':
+            payload = {'device': dev, 'room': room, 'action': 'on'}
             dispatcher.utter_message(response='utter_device_on')
-        elif intent=='turn_off_device':
-            payload={'device':dev,'room':room,'action':'off'}
+        elif intent == 'turn_off_device':
+            payload = {'device': dev, 'room': room, 'action': 'off'}
             dispatcher.utter_message(response='utter_device_off')
         else:
-            payload={'device':dev,'room':room,'value':val}
+            payload = {'device': dev, 'room': room, 'value': val}
             dispatcher.utter_message(response='utter_set_value')
+
         try:
-            requests.post(url,json=payload)
+            requests.post(url, json=payload)
         except:
             dispatcher.utter_message(text='Không gửi được lệnh IoT')
         return []
-    
+
 class ActionPlayMusic(Action):
     def name(self): return "action_play_music"
 
     def run(self, dispatcher, tracker, domain):
         dispatcher.utter_message(response="utter_play_music")
-        # Mở một video YouTube bằng trình duyệt mặc định
         try:
-            webbrowser.open("https://www.youtube.com/watch?v=ZbZSe6N_BXs")  # Happy - Pharrell Williams
+            webbrowser.open("https://www.youtube.com/watch?v=ZbZSe6N_BXs")
         except:
             dispatcher.utter_message(text="Không thể mở trình duyệt để phát nhạc.")
+        return []
+
+class ActionAdjustSetting(Action):
+    def name(self): return "action_adjust_setting"
+
+    def run(self, dispatcher, tracker, domain):
+        intent = tracker.latest_message['intent']['name']
+        device = tracker.get_slot("device") or "thiết bị"
+        room = tracker.get_slot("room") or "phòng nào đó"
+        direction = "increase" if intent == "increase_setting" else "decrease"
+
+        payload = {
+            "device": device,
+            "room": room,
+            "adjust": direction
+        }
+
+        try:
+            requests.post("http://localhost:5000/control", json=payload)
+            msg = f"Đã {'tăng' if direction == 'increase' else 'giảm'} {device} trong {room}"
+            dispatcher.utter_message(text=msg)
+        except:
+            dispatcher.utter_message(text="Không gửi được lệnh điều chỉnh.")
         return []

@@ -4,6 +4,8 @@ intents:
   - turn_off_device
   - set_device_value
   - play_music
+  - increase_setting
+  - decrease_setting
 entities:
   - device
   - room
@@ -33,6 +35,13 @@ responses:
     - text: "Đã chỉnh {device} trong {room} về {value}"
   utter_play_music:
     - text: "Đang mở nhạc YouTube cho bạn."
+  utter_increase_setting:
+    - text: "Đã tăng {device} trong {room}"
+  utter_decrease_setting:
+    - text: "Đã giảm {device} trong {room}"
+  utter_default:
+    - text: "Xin lỗi, tôi chưa hiểu bạn nói gì. Bạn có thể thử lại không?"
 actions:
   - action_control_device
   - action_play_music
+  - action_adjust_setting  
