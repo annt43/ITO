@@ -8,19 +8,21 @@ class ActionControlDevice(Action):
 
     def run(self, dispatcher, tracker, domain):
         intent = tracker.latest_message['intent']['name']
-        dev = tracker.get_slot('device') or 'thiết bị'
-        room = tracker.get_slot('room') or 'phòng nào đó'
-        val = tracker.get_slot('value')
+        device = tracker.get_slot('device')
+        value = tracker.get_slot('value')
+        if not device:
+            dispatcher.utter_message(text="Tôi chưa rõ thiết bị bạn muốn điều khiển.")
+            return []
+
         url = 'http://localhost:5000/control'
-        
         if intent == 'turn_on_device':
-            payload = {'device': dev, 'room': room, 'action': 'on'}
+            payload = {'device': device, 'action': 'on'}
             dispatcher.utter_message(response='utter_device_on')
         elif intent == 'turn_off_device':
-            payload = {'device': dev, 'room': room, 'action': 'off'}
+            payload = {'device': device, 'action': 'off'}
             dispatcher.utter_message(response='utter_device_off')
         else:
-            payload = {'device': dev, 'room': room, 'value': val}
+            payload = {'device': device, 'value': value}
             dispatcher.utter_message(response='utter_set_value')
 
         try:
@@ -45,19 +47,20 @@ class ActionAdjustSetting(Action):
 
     def run(self, dispatcher, tracker, domain):
         intent = tracker.latest_message['intent']['name']
-        device = tracker.get_slot("device") or "thiết bị"
-        room = tracker.get_slot("room") or "phòng nào đó"
-        direction = "increase" if intent == "increase_setting" else "decrease"
+        device = tracker.get_slot("device")
+        if not device:
+            dispatcher.utter_message(text="Tôi chưa rõ thiết bị cần điều chỉnh.")
+            return []
 
+        direction = "increase" if intent == "increase_setting" else "decrease"
         payload = {
             "device": device,
-            "room": room,
             "adjust": direction
         }
 
         try:
             requests.post("http://localhost:5000/control", json=payload)
-            msg = f"Đã {'tăng' if direction == 'increase' else 'giảm'} {device} trong {room}"
+            msg = f"Đã {'tăng' if direction == 'increase' else 'giảm'} {device}"
             dispatcher.utter_message(text=msg)
         except:
             dispatcher.utter_message(text="Không gửi được lệnh điều chỉnh.")

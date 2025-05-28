@@ -3,34 +3,35 @@ import datetime
 
 app = Flask(__name__)
 
-# Danh sách thiết bị hợp lệ
-VALID_DEVICES = {'quạt', 'đèn', 'máy lạnh'}
-VALID_ACTIONS = {'on', 'off', 'set', None}
-VALID_ADJUSTS = {'increase', 'decrease', None}
+# Cho phép các thiết bị có chứa từ khóa này
+VALID_KEYWORDS = {'quạt', 'đèn', 'máy lạnh'}
+
+def is_valid_device(device_name: str) -> bool:
+    if not device_name:
+        return False
+    device_name = device_name.lower()
+    return any(keyword in device_name for keyword in VALID_KEYWORDS)
 
 @app.route('/control', methods=['POST'])
 def control():
     data = request.json or {}
 
     timestamp = datetime.datetime.now().isoformat()
-    device = data.get('device', 'Không rõ')
-    room = data.get('room', 'Không rõ')
+    device = data.get('device', '').strip()
     action = data.get('action')
     value = data.get('value')
     adjust = data.get('adjust')
 
     errors = []
 
-    # Kiểm tra device hợp lệ
-    if device not in VALID_DEVICES:
+    # Kiểm tra thiết bị
+    if not is_valid_device(device):
         errors.append(f"Thiết bị không hợp lệ: {device}")
 
-    # Kiểm tra action (nếu có)
-    if action not in VALID_ACTIONS:
+    # Kiểm tra action/adjust hợp lệ nếu có
+    if action and action not in {"on", "off", "set"}:
         errors.append(f"Action không hợp lệ: {action}")
-
-    # Kiểm tra adjust (nếu có)
-    if adjust not in VALID_ADJUSTS:
+    if adjust and adjust not in {"increase", "decrease"}:
         errors.append(f"Điều chỉnh không hợp lệ: {adjust}")
 
     # Trả lỗi nếu có
@@ -45,20 +46,21 @@ def control():
         }), 400
 
     # In log hợp lệ
-    print("\n========== 📥 IoT Command Received ==========")
+    print("\n========== 📥 Lệnh IoT nhận được ==========")
     print(f"[Time]     {timestamp}")
     print(f"[Device]   {device}")
-    print(f"[Room]     {room}")
-    if action: print(f"[Action]   {action}")
-    if adjust: print(f"[Adjust]   {adjust}")
-    if value: print(f"[Value]    {value}")
-    print("=============================================")
+    if action:
+        print(f"[Action]   {action}")
+    if adjust:
+        print(f"[Adjust]   {adjust}")
+    if value:
+        print(f"[Value]    {value}")
+    print("============================================")
 
     return jsonify({
         "status": "OK",
         "timestamp": timestamp,
         "device": device,
-        "room": room,
         "action": action,
         "adjust": adjust,
         "value": value

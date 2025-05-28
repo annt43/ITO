@@ -6,42 +6,40 @@ intents:
   - play_music
   - increase_setting
   - decrease_setting
+
 entities:
   - device
-  - room
   - value
+
 slots:
   device:
     type: text
     mappings:
       - type: from_entity
         entity: device
-  room:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: room
   value:
     type: text
     mappings:
       - type: from_entity
         entity: value
+
 responses:
   utter_device_on:
-    - text: "Đã bật {device} trong {room}"
+    - text: "Đã bật {device}"
   utter_device_off:
-    - text: "Đã tắt {device} trong {room}"
+    - text: "Đã tắt {device}"
   utter_set_value:
-    - text: "Đã chỉnh {device} trong {room} về {value}"
+    - text: "Đã chỉnh {device} về {value}"
   utter_play_music:
     - text: "Đang mở nhạc YouTube cho bạn."
   utter_increase_setting:
-    - text: "Đã tăng {device} trong {room}"
+    - text: "Đã tăng {device}"
   utter_decrease_setting:
-    - text: "Đã giảm {device} trong {room}"
+    - text: "Đã giảm {device}"
   utter_default:
     - text: "Xin lỗi, tôi chưa hiểu bạn nói gì. Bạn có thể thử lại không?"
+
 actions:
   - action_control_device
   - action_play_music
-  - action_adjust_setting  
+  - action_adjust_setting
