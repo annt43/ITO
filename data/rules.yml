@@ -1,0 +1,36 @@
+version: "3.1"
+rules:
+
+- rule: Bật thiết bị
+  steps:
+    - intent: turn_on_device
+    - action: action_control_device
+
+- rule: Tắt thiết bị
+  steps:
+    - intent: turn_off_device
+    - action: action_control_device
+
+- rule: Đặt giá trị thiết bị
+  steps:
+    - intent: set_device_value
+    - action: action_control_device
+
+- rule: Mở nhạc
+  steps:
+    - intent: play_music
+    - action: action_play_music
+
+- rule: Tăng cường độ
+  steps:
+    - intent: increase_setting
+    - action: action_adjust_setting
+
+- rule: Giảm cường độ
+  steps:
+    - intent: decrease_setting
+    - action: action_adjust_setting
+- rule: Phản hồi khi không hiểu
+  steps:
+    - intent: nlu_fallback
+    - action: utter_default
