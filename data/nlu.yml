@@ -3,43 +3,43 @@ nlu:
 
 - intent: turn_on_device
   examples: |
-    - Bật [quạt](device) [phòng khách](room)
-    - Mở [đèn](device) trong [phòng ngủ](room)
-    - Khởi động [máy lạnh](device) ở [phòng bếp](room)
-    - Kích hoạt [quạt](device)
-    - Bật [đèn](device)
+    - Bật [đèn phòng khách](device)
+    - Mở [quạt phòng ngủ](device)
+    - Bật [máy lạnh](device)
+    - Khởi động [đèn bếp](device)
 
 - intent: turn_off_device
   examples: |
-    - Tắt [quạt](device) [phòng khách](room)
-    - Ngắt [máy lạnh](device) ở [phòng ngủ](room)
-    - Tắt [đèn](device)
-    - [phòng khách](room) tắt [quạt](device)
-    - Dừng hoạt động [quạt](device)
+    - Tắt [quạt phòng khách](device)
+    - Ngắt [máy lạnh](device)
+    - Dừng hoạt động của [đèn trần](device)
 
 - intent: set_device_value
   examples: |
-    - Đặt [máy lạnh](device) ở [phòng khách](room) là [24 độ](value)
-    - Chỉnh [đèn](device) trong [phòng ngủ](room) về [50%](value)
-    - Cài đặt [quạt](device) về [số 3](value)
+    - Đặt [máy lạnh phòng khách](device) là [25 độ](value)
+    - Chỉnh [đèn phòng ngủ](device) về [50%](value)
 
 - intent: play_music
   examples: |
     - Mở nhạc đi
-    - Bật nhạc vui
-    - Cho tôi nghe nhạc
-    - Bật bài hát
+    - Bật bài hát vui
+    - Phát nhạc trên YouTube
 
 - intent: increase_setting
   examples: |
-    - Tăng tốc độ [quạt](device)
-    - Làm sáng [đèn](device) [phòng khách](room)
+    - Tăng [đèn bếp](device)
+    - Tăng tốc độ [quạt phòng ngủ](device)
     - Tăng nhiệt độ [máy lạnh](device)
-    - Cho [quạt](device) mạnh hơn
 
 - intent: decrease_setting
   examples: |
-    - Giảm tốc độ [quạt](device)
-    - Làm tối [đèn](device) trong [phòng ngủ](room)
+    - Giảm [đèn phòng khách](device)
+    - Giảm tốc độ [quạt trần](device)
     - Giảm nhiệt độ [máy lạnh](device)
-    - Cho [quạt](device) chạy nhẹ hơn
+
+- intent: out_of_scope
+  examples: |
+    - asdfgh
+    - zzzz
+    - kjhfkjh
+    - bậk

@@ -30,7 +30,13 @@ rules:
   steps:
     - intent: decrease_setting
     - action: action_adjust_setting
-- rule: Phản hồi khi không hiểu
+
+- rule: Fallback
   steps:
     - intent: nlu_fallback
+    - action: utter_default
+
+- rule: Ngoài phạm vi
+  steps:
+    - intent: out_of_scope
     - action: utter_default
