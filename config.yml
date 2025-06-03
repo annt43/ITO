@@ -6,16 +6,31 @@ pipeline:
   intent_tokenization_flag: true
   intent_split_symbol: "+"
   token_pattern: None
+
 - name: RegexFeaturizer
+
+- name: RegexEntityExtractor
+  case_sensitive: False
+  use_lookup_tables: False
+  use_regexes: True
+  use_word_boundaries: True
+  regex_features:
+    - name: value
+      pattern: "\\d{1,2}\\s?(độ|%)"
+
 - name: LexicalSyntacticFeaturizer
+
 - name: CountVectorsFeaturizer
+
 - name: DIETClassifier
   epochs: 100
   use_masked_language_model: false
   constrain_similarities: true
+
 - name: EntitySynonymMapper
+
 - name: FallbackClassifier
-  threshold: 0.44              # ← xử lý fallback tốt hơn
+  threshold: 0.44
   ambiguity_threshold: 0.1
 
 policies:
@@ -24,4 +39,5 @@ policies:
 - name: TEDPolicy
   max_history: 5
   epochs: 100
+
 assistant_id: 20250528-142113-humane-speed

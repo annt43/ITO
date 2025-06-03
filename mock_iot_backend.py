@@ -4,7 +4,7 @@ import datetime
 app = Flask(__name__)
 
 # Cho phép các thiết bị có chứa từ khóa này
-VALID_KEYWORDS = {'quạt', 'đèn', 'máy lạnh'}
+VALID_KEYWORDS = {'quạt', 'đèn', 'máy lạnh', 'điều hòa', 'cửa'}
 
 def is_valid_device(device_name: str) -> bool:
     if not device_name:
